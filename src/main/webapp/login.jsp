@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!doctype html>
 <html lang="en">
 
@@ -22,7 +23,11 @@
     display: flex;
     align-items: center;
     justify-content: center;
+   
   }
+   #errorMessage {
+ 	 color: red;
+	}
     </style>
     <script>
     window.addEventListener('load', function() {
@@ -70,17 +75,34 @@
 
                                         <div class="form-outline mb-4">
                                             <label class="form-label" for="email">Email</label>
-                                            <input type="email" id="email"  name="email"class="form-control form-control-lg" />
-                                              <span id="emailError" class="text-danger"></span> 
+                                            <input type="email" id="email"  name="email"class="form-control form-control-lg" required/>
+                                               
 
                                         </div>
 
                                         <div class="form-outline mb-4">
                                             <label class="form-label" for="password">Password</label>
-                                            <input type="password" id="password" name="password"class="form-control form-control-lg" />
-                                            <span id="passError" class="text-danger"></span>  
+                                            <input type="password" id="password" name="password"class="form-control form-control-lg" required/>
+                                             <%
+											  String errorMessage = (String) session.getAttribute("errorMessage");
+											  if (errorMessage != null) {
+											%>
+																						
+											    <div id="errorMessage">
+												      <%= errorMessage %>
+												    </div>
+												<%
+												    session.removeAttribute("errorMessage");
+												  }
+												%>
                                         </div>
-
+                                        
+                                        
+										
+											
+											
+											
+											
                                         <div class="pt-1 mb-4">
                                             <button class="btn btn-dark btn-lg btn-block" type="submit">Login</button>
                                         </div>

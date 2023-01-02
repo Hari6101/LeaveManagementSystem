@@ -126,7 +126,8 @@
                                     <th scope="col">Date of Birth</th>
                                     <th scope="col">Date of Joining</th>
                                    
-                                    <th scope="col">Designation</th>
+                                    <th scope="col">Role</th>
+                                    <th scope="col">Reporting Manager</th>
                                     <th scope="col">Address</th>
                                 </tr>
                             	<thead>
@@ -141,7 +142,8 @@
 								<td>${employee.gender}</td>
 								<td>${employee.dob}</td>
 								<td>${employee.doj}</td>
-								<td>${employee.designation}</td>
+								<td>${employee.role}</td>
+								<td>${employee.reportingmanager}</td>
 								<td>${employee.address}</td>
 
 
@@ -164,6 +166,8 @@
                 </div>
                 <!-- /#page-content-wrapper -->
             </div>
+            
+            
 
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"></script>
             <script>

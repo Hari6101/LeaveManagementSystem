@@ -115,6 +115,7 @@
             <div class="container shadow" style="margin-top: 70px;">
                 <div class="title">Add holiday</div>
                 <form action="/addHoliday" method="POST" onsubmit="return validateForm()">
+                <input type="hidden" name="id" value="${employee.id}">
                     <div class="Employe-Details">
                         <div class="input-box">
                             <span class="details">Holiday Name</span>

@@ -128,8 +128,7 @@ public class ManagerController{
 		
 		int id = Integer.parseInt(request.getParameter("id"));
 		Employee employee = emprepo.getReferenceById(id);
-		//List<Leave> leave = lrepo.findByRole("admin");leave.addAll(lrepo.findByRole("employee"));
-		//List<Leave> leave = lrepo.findByRoleAndStatus("admin", "pending");leave.addAll(lrepo.findByRoleAndStatus("employee", "pending"));
+		
 		List<Leave> leave = lrepo.findByRoleInAndStatusAndReportingmanager(Arrays.asList("admin", "employee"), "pending", employee.getName());
 
 		request.setAttribute("leave", leave);
@@ -140,7 +139,7 @@ public class ManagerController{
 
 	@GetMapping("/leaveRejectManager")
 	public ModelAndView managerRejectLeave(HttpServletRequest request,Leave leave) {
-		int id = Integer.parseInt(request.getParameter("id"));
+		int id = Integer.parseInt(request.getParameter("eid"));
 		Leave lv = lrepo.getReferenceById(leave.getId());
 		System.out.println(leave.getId());
 		lv.setStatus("Rejected");
@@ -149,7 +148,7 @@ public class ManagerController{
 	}
 	@GetMapping("/leaveApproveManager")
 	public ModelAndView managerApproveLeave(HttpServletRequest request,Leave leave,Employee emp) {
-		int id = Integer.parseInt(request.getParameter("id"));
+		int id = Integer.parseInt(request.getParameter("eid"));
 		Leave lv = lrepo.getReferenceById(leave.getId());
 		System.out.println(leave.getId());
 		lv.setStatus("Approved");
@@ -163,25 +162,25 @@ public class ManagerController{
 		  System.out.println("leaveType"+leaveType);
 		  Employee employee = emprepo.findById(lv.getEmpId()).orElseThrow(EntityNotFoundException::new);
 		  switch (leaveType) {
-		    case "SickLeave":
+		    case "Sick Leave":
 		      employee.setSickleave(employee.getSickleave() - days);
 		      break;
-		    case "CasualLeave":
+		    case "Casual Leave":
 		      employee.setCasualleave(employee.getCasualleave() - days);
 		      break;
-		    case "PersonalLeave":
+		    case "Personal Leave":
 		      employee.setPersonalleave(employee.getPersonalleave() - days);
 		      break;
-		    case "MaternityLeave":
+		    case "Maternity Leave":
 		      employee.setMaternityleave(employee.getMaternityleave() - days);
 		      break;
-		    case "PaternityLeave":
+		    case "Paternity Leave":
 		      employee.setPaternityleave(employee.getPaternityleave() - days);
 		      break;
-		    case "MarriageLeave":
+		    case "Marriage Leave":
 		      employee.setMarriageleave(employee.getMarriageleave() - days);
 		      break;
-		    case "AdoptionLeave":
+		    case "Adoption Leave":
 		      employee.setAdoptionleave(employee.getAdoptionleave() - days);
 		      break;
 		    default:

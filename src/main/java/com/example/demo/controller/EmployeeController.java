@@ -115,10 +115,14 @@ public class EmployeeController{
 
 		Employee employee = emprepo.findByEmailAndPassword(email, password);
 		if (employee==null) {
-			return new ModelAndView("login.jsp");
+			System.out.println("failed to login");
+			//mv.addObject("errorMessage", "Invalid email or password. Please try again.");
+			//return new ModelAndView("login.jsp");
+			  session.setAttribute("errorMessage", "Invalid email or password. Please try again.");
+			mv.setViewName("login.jsp");
+			return mv;
 		}
-		else {
-			if (employee.getRole().equals("manager")) {
+		else if (employee.getRole().equals("manager")) {
 				session.setAttribute("email", email);
 				mv.setViewName("Manager dashboard.jsp");
 				mv.addObject("employee",employee);
@@ -136,12 +140,12 @@ public class EmployeeController{
 				mv.addObject("employee",employee);
 				return mv;
 			}else {
-
-				System.out.println("failed to login");
+				
+				
 				return new ModelAndView("login.jsp");
 			}
 		}
-	}	
+		
 
 	@GetMapping("/fetchdata")
 	public ResponseEntity<List<Date>> getData() {
@@ -153,5 +157,13 @@ public class EmployeeController{
 		return ResponseEntity.ok(dates);
 	}
 
-
+	//fetch remaining leave count
+//	@GetMapping("/fetchleavedata")
+//	public ResponseEntity<Integer> getLeaveData(HttpServletRequest request) {
+//		int id = Integer.parseInt(request.getParameter("id"));
+//		Employee employee = emprepo.getReferenceById(id);
+//		request.setAttribute("employee", employee);
+//		int sickleave=employee.getSickleave();
+//		return ResponseEntity.ok(sickleave);
+//	}
 }

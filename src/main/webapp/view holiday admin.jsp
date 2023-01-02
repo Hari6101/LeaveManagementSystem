@@ -114,7 +114,7 @@
                                 <th scope="col">Sr. No</th>
                                 <th scope="col">Holiday Name</th>
                                 <th scope="col">dates</th>
-                               
+                               <th scope="col"></th>
                             </tr>
                         </thead>
                         <c:forEach items="${holiday}" var="holiday">
@@ -125,13 +125,20 @@
 								<td>${holiday.dates}</td>
 								
 
-
-								<td><a href="deleteHoliday?hid=<c:out value="${holiday.hid}"/>"><button
+									
+								<%-- <td><a href="deleteHoliday?hid=<c:out value="${holiday.hid}"/>"><button
 											type="button"
 											onclick="return confirm('Do you really want to delete?');"
-											class="btn btn-danger">DELETE</button></a></td>
+											class="btn btn-danger">DELETE</button></a></td> --%>
 								
-
+<td><form action="deleteHoliday?hid=${holiday.hid}">
+  <input type="hidden" name="hid" value="${holiday.hid}">
+   <input type="hidden" name="id" value="${employee.id}">
+  <button type="submit"
+          onclick="return confirm('Do you really want to delete?');"
+          class="btn btn-danger">DELETE</button>
+</form>
+</td>
 							
 
 							</tr>

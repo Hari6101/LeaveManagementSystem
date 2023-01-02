@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -11,6 +12,7 @@
   <link rel="stylesheet" href="css/adminstyle.css" />
   <link rel="stylesheet" href="css/registerstyle.css">
   <title>Admin | Add Employee | LMS</title>
+
 </head>
 
 <body>
@@ -113,6 +115,7 @@
         <div class="title">Add Employee</div>
         <form action="/addEmployee" method="POST" onsubmit="return validateForm()">
         <input type="hidden" name="status" value="active">
+        <input type="hidden" name="eid" value="${employee.id}"> 
           <div class="Employe-Details">
             <div class="input-box">
               <span class="details">Name</span>
@@ -120,16 +123,23 @@
               <span id="nameError" class="text-danger"></span>
             </div>
             <div class="input-box">
-              <span class="details">Reporting Manager</span>
-              <input type="text" id="name" name="reportingmanager" class="form-control">
+              <span class="details">Reporting Person</span>
+              <select  class="form-control" name="assignedTeam" id="assignedTeam" required>
+                                   <option value="" selected>Select manager</option> 
+                                  <c:forEach items="${manager}" var="manager" > 
+                                  <option value="${manager.name}">${manager.name}</option>
+    								</c:forEach>
+                                </select>
+              
               <span id="nameError" class="text-danger"></span>
             </div>
-            <div class="input-box">
+              <div class="input-box">
               <span class="details">Email</span>
               <input type="email" id="email" name="email" class="form-control">
               <span id="emailError" class="text-danger"></span>
+              <div class="text-danger">${errorMessage}</div>
             </div>
-
+			
             <div class="input-box">
               <span class="details">Contact</span>
               <input type="text" id="contact" name="contact" class="form-control">
@@ -162,9 +172,9 @@
               <select name="designation" id="designation" class="form-control">
                 <option value="Manager">Manager</option>
                 <option value="Deputy Manager">Deputy Manager</option>
-                <option value="President">President</option>
-                <option value="Assistant Vice President">Assistant Vice President</option>
-                <option value="Deputy Vice President">Deputy Vice President</option>
+                <option value="President">Officer</option>
+                <option value="Assistant Vice President">Developer</option>
+                <option value="Deputy Vice President">Tester</option>
               </select>
             </div>
             <div class="input-box">
@@ -267,7 +277,8 @@
         console.log(JmaxDate);
         document.getElementById("hiringDate").setAttribute("max", JnextmaxDate);
         console.log(JnextmaxDate);
-
+		
+        
         /* end validation for joining date */
 
 
@@ -277,19 +288,24 @@
 
             document.getElementById("nameError").innerHTML = "Name is required.";
             flag = 0;
+            console.log("flag is : "+flag);
 
           } else if (name.value.length < 2) {
             document.getElementById("nameError").innerHTML = "Minimum length should be 2 characters.";
             flag = 0;
+            console.log("flag is : "+flag);
           } else if (name.value.length > 20) {
             document.getElementById("nameError").innerHTML = "Maximum length should be 20 characters.";
             flag = 0;
+            console.log("flag is : "+flag);
           } else if (!namecheck.test(name.value)) {
             document.getElementById("nameError").innerHTML = " This should be in characters only.";
             flag = 0;
+            console.log("flag is : "+flag);
           } else {
             document.getElementById("nameError").innerHTML = "";
             flag = 1;
+            console.log("flag is : "+flag);
           }
 
           // email validation 
@@ -297,14 +313,16 @@
 
             document.getElementById("emailError").innerHTML = "Email is required.";
             flag = 0;
+            console.log("flag is : "+flag);
           }
           else if (!emailcheck.test(email.value)) {
             document.getElementById("emailError").innerHTML = "Please input a valid Email.";
             flag = 0;
+            console.log("flag is : "+flag);
           }
           else {
             document.getElementById("emailError").innerHTML = "";
-
+            console.log("flag is : "+flag);
 
           }
 
@@ -312,51 +330,56 @@
           if (contact.value == "") {
             document.getElementById("contactError").innerHTML = "Contact number is required.";
             flag = 0;
+            console.log("flag is : "+flag);
           }
           else if (!phonecheck.test(contact.value)) {
             document.getElementById("contactError").innerHTML = "Please provide a valid contact number.";
             flag = 0;
+            console.log("flag is : "+flag);
           }
           else {
             document.getElementById("contactError").innerHTML = "";
-
+            console.log("flag is : "+flag);
           }
           // dob validation 
           if (dob.value.length == "") {
             document.getElementById("dobError").innerHTML = "Date of Birth is required.";
             flag = 0;
+            console.log("flag is : "+flag);
           }
           else if (maxDate1 - dob.value > "60") {
             document.getElementById("dobError").innerHTML = "Date should be less than 60 year";
             flag = 0;
+            console.log("flag is : "+flag);
 
           } else {
             document.getElementById("dobError").innerHTML = "";
-
+            console.log("flag is : "+flag);
           }
 
           // joining date  validation 
           if (hiringDate.value.length == "") {
             document.getElementById("jdError").innerHTML = "Date of Joining is required.";
             flag = 0;
+            console.log("flag is : "+flag);
           } else {
             document.getElementById("jdError").innerHTML = "";
-
+            console.log("flag is : "+flag);
           }
 
           // address validation 
           if (address.value.length == " ") {
             document.getElementById("addressError").innerHTML = "Address is required.";
             flag = 0;
-
+            console.log("flag is : "+flag);
           }
           else if (address.value.length < 20) {
             document.getElementById("addressError").innerHTML = "Please provide complete details.";
             flag = 0;
-
+            console.log("flag is : "+flag);
           } else {
             document.getElementById("addressError").innerHTML = "";
-
+            console.log("flag is : "+flag);
           }
 
 
@@ -366,7 +389,7 @@
             return false;
           }
 
-
+		console.log("flag : "+flag);
         }
 
       </script>

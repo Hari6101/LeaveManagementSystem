@@ -145,6 +145,7 @@
                             <span class="details">Total Days</span>
                             <input type="text" id="Total" name="totalDays" class="form-control " readonly>
                             <!-- <span id="caldate" class="text-danger"></span> -->
+                            <span id="TotalError" class="text-danger"></span>
                         </div>
 
                         <!-- drop-down for leave type -->
@@ -152,13 +153,13 @@
                         <div class="input-box">
                             <span class="details">Leave Type</span>
                             <select name="leaveType" id="leave type" class="form-control">
-                                <option value="SickLeave">Sick Leave</option>
-                                <option value="CasualLeave">Casual Leave</option>
-                                <option value="PersonalLeave">Personal Leave</option>
-                                <option value="MaternityLeave">Maternity Leave</option>
-                                <option value="PaternityLeave">Paternity Leave</option>
-                                <option value="MarriageLeave">Marriage Leave</option>
-                                <option value="AdoptionLeave">Adoption Leave</option>
+                                <option value="Sick Leave">Sick Leave</option>
+                                <option value="Casual Leave">Casual Leave</option>
+                                <option value="Personal Leave">Personal Leave</option>
+                                <option value="Maternity Leave">Maternity Leave</option>
+                                <option value="Paternity Leave">Paternity Leave</option>
+                                <option value="Marriage Leave">Marriage Leave</option>
+                                <option value="Adoption Leave">Adoption Leave</option>
                             </select>
                         </div>
                         <!-- input box for Reason -->
@@ -178,13 +179,9 @@
 
 
 
-                <script>                                    // 31 sunday          31 is public holidays 
+                <script>                                    
                     var flag = 1;
-                    //  yyyy-mm-dd
-                    //  jan 1 2023 ==> 2023-01-01
-                    //   const holidays = ['2023-01-01', '2022-07-04', '2022-12-25'];
-                    //const holidays = ['2023-01-23', '2023-01-26', '2023-02-26', '2023-02-05', '2023-02-18', '2023-03-08', '2023-03-22', '2023-03-30', '2023-04-04', '2023-04-07', '2023-04-14', '2023-04-22', '2023-05-01', '2023-05-05', '2023-06-29', '2023-07-29', '2023-08-15', '2023-12-25', '2023-11-27', '2023-11-15', '2023-11-13', '2023-11-12', '2023-10-24', '2023-10-23', '2023-10-22', '2023-10-21', '2023-10-02', '2023-09-28', '2023-09-19', '2023-09-07', '2023-08-31', '2023-08-16', '2023-01-01', '2022-07-04', '2022-12-25'];
-					var holidays =[];
+                    var holidays =[];
 					fetch('/fetchdata')
 					.then(response => response.json())
 					.then(dates => {
@@ -198,7 +195,7 @@
 					    // handle errors
 					});                     
 					      console.log(holidays);
-					      
+					       
                     function isHoliday(date) {
                         return holidays.includes(date.toISOString().split('T')[0]);
                     }
@@ -235,7 +232,9 @@
 
 
                     // end bvalidation for weekend and holidays 
-
+					let leavetype=document.getElementById("leave type");
+                    console.log("leave type : "+leavetype.value);
+                    
                     let email = document.getElementById("email");
                     let emailcheck = /^[A-Za-z_.0-9]{3,30}@[A-Za-z]{2,12}.[A-Za-z.]{2,8}$/;
                     let reason = document.getElementById("reason");
@@ -280,22 +279,102 @@
                     // end validation To date 
 
                     function validateForm() {
+						
+					// validation start for leave 
+                        
+                        if(leavetype.value=="Sick Leave"){
+                              if(Total.value<${employee.sickleave}){
+                                document.getElementById("TotalError").innerHTML = "Insufficient leave available for the requested time period.";
+                               flag = 0;
+                               console.log("flag is 1: "+flag);
+                              }else {
+                                document.getElementById("TotalError").innerHTML = "";
+                                console.log("flag is 2: "+flag);
+                              }
+                        }
 
-
+                       
+                        if(leavetype.value=="Casual Leave"){
+                              if(Total.value<${employee.casualleave}){
+                                document.getElementById("TotalError").innerHTML = "Insufficient leave available for the requested time period.";
+                               flag = 0;
+                               console.log("flag is : "+flag);
+                              }else {
+                                document.getElementById("TotalError").innerHTML = "";
+                                console.log("flag is : "+flag);
+                              }
+                        }
+                        if(leavetype.value=="Personal Leave"){
+                              if(Total.value<${employee.personalleave}){
+                                document.getElementById("TotalError").innerHTML = "Insufficient leave available for the requested time period.";
+                               flag = 0;
+                               console.log("flag is : "+flag);
+                              }else {
+                                document.getElementById("TotalError").innerHTML = "";
+                                console.log("flag is : "+flag);
+                              }
+                        }
+                   
+                        if(leavetype.value=="Maternity Leave"){
+                              if(Total.value!=${employee.maternityleave}){
+                                document.getElementById("TotalError").innerHTML = "Meternity leave should be 180 days.";
+                               flag = 0;
+                               console.log("flag is : "+flag);
+                              }else {
+                                document.getElementById("TotalError").innerHTML = "";
+                                console.log("flag is : "+flag);
+                              }
+                        }
+                        if(leavetype.value=="Paternity Leave"){
+                              if(Total.value!=${employee.paternityleave}){
+                                document.getElementById("TotalError").innerHTML = "Paternity leave should be 30 days.";
+                               flag = 0;
+                               console.log("flag is : "+flag);
+                              }else {
+                                document.getElementById("TotalError").innerHTML = "";
+                                console.log("flag is : "+flag);
+                              }
+                        }
+                       
+                        if(leavetype.value=="Marriage Leave"){
+                              if(Total.value!=${employee.marriageleave}){
+                                document.getElementById("TotalError").innerHTML = "Marriage leave should be 15 days.";
+                               flag = 0;
+                               console.log("flag is : "+flag);
+                              }else {
+                                document.getElementById("TotalError").innerHTML = "";
+                                console.log("flag is : "+flag);
+                              }
+                        }
+                        if(leavetype.value=="Adoption Leave"){
+                              if(Total.value!=${employee.adoptionleave}){
+                                document.getElementById("TotalError").innerHTML = "Insufficient leave available for the requested time period.";
+                               flag = 0;
+                               console.log("flag is : "+flag);
+                              }else {
+                                document.getElementById("TotalError").innerHTML = "";
+                                console.log("flag is : "+flag);
+                               
+                              }
+                        }
+                        
+                         // validation end for leave
                         // email validation start from here.  
                       if (email.value == "") {
 
                             document.getElementById("emailError").innerHTML = "Email is required.";
                             flag = 0;
+                            console.log("flag is : "+flag);
                         }
                         else if (!emailcheck.test(email.value)) {
                             document.getElementById("emailError").innerHTML = "Please input a valid Email.";
                             flag = 0;
+                            console.log("flag is : "+flag);
                         }
                         else {
                             document.getElementById("emailError").innerHTML = "";
-                            flag = 1;
-
+                           
+                            console.log("flag is : "+flag);
                         }
  
                         // validation for reason 
@@ -303,29 +382,22 @@
 
                             document.getElementById("resError").innerHTML = "Reason is required.";
                             flag = 0;
+                            console.log("flag is : "+flag);
 
-                        } else if (reason.value.length < 20) {
-                            document.getElementById("resError").innerHTML = "Minimum length should be 20 characters.";
-                            flag = 0;
-                        } else if (reason.value.length > 100) {
-                            document.getElementById("resError").innerHTML = "Maximum length should be 100 characters.";
-                            flag = 0;
-                        } else if (!reasoncheck.test(reason.value)) {
-                            document.getElementById("resError").innerHTML = "This should be in characters only.";
-                            flag = 0;
-                        } else {
+                        }  else {
                             document.getElementById("resError").innerHTML = "";
-
+                            console.log("flag is : "+flag);
                         }
 
                         // from date validation start from here. 
                         if (from.value.length == "") {
                             document.getElementById("fromError").innerHTML = "Start Date is required.";
                             flag = 0;
+                            console.log("flag is : "+flag);
                         }
                         else {
                             document.getElementById("fromError").innerHTML = "";
-
+                            console.log("flag is : "+flag);
                         }
 
 
@@ -334,15 +406,17 @@
                         if (To.value.length == "") {
                             document.getElementById("ToError").innerHTML = "End Date is required";
                             flag = 0;
+                            console.log("flag is : "+flag);
                         }
                         else if (from.value > To.value) {
 
                             document.getElementById("ToError").innerHTML = "You can't select this date.";
                             flag = 0;
+                            console.log("flag is : "+flag);
                         }
                         else {
                             document.getElementById("ToError").innerHTML = "";
-
+                            console.log("flag is : "+flag);
                         }
                         // calculate date 
                         const date1 = new Date(inputfrom.value);
@@ -359,7 +433,7 @@
                             }
                         }
                         document.getElementById("Total").value = numWeekdays;
-                        console.log("flag is : "+flag);
+                        console.log("final flag is : "+flag);
                         if (flag) {
                             return true;
                         } else {

@@ -129,7 +129,7 @@
 					
 							<div class="input-box">
 								<span class="details">Assigned Manager</span> 
-								<input type="text" name="assignedTeam" id="assignedTeam" class="form-control">
+							<!-- <input type="text" name="assignedTeam" id="assignedTeam" class="form-control"> -->
 								
 								
 								<%-- <c:forEach items="employee" var="employee">
@@ -137,6 +137,12 @@
 									
 								</select>
 									</c:forEach> --%>
+									 <select  class="form-control" name="assignedTeam" id="assignedTeam" required>
+                                   <option value="" selected>Select manager</option> 
+                                  <c:forEach items="${manager}" var="manager" > 
+                                  <option value="${manager.name}">${manager.name}</option>
+    								</c:forEach>
+                                </select>
 									
 									
 									

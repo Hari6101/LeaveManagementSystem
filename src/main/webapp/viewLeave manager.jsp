@@ -122,22 +122,31 @@
                             	 <td>${leave.totalDays}</td> 
                                     <td>${leave.reason}</td>
                                     <td>${leave.status}</td>
-                                    <td><a href="leaveRejectManager?id=<c:out value="${leave.id}"/>"><button
+                                <%--     <td><a href="leaveRejectManager?id=<c:out value="${leave.id}"/>"><button
 											type="button"
 											onclick="return confirm('Do you really want to reject the leave request?');"
 											class="btn btn-danger">REJECT</button></a></td>
 								<td><a href="leaveApproveManager?id=<c:out value="${leave.id}"/>"><button
-											type="button" class="btn btn-primary">APPROVE</button></a></td>
-                                <!-- <tr>
-                                    <th scope="row">4</th>
-                                    <td>Marriage Leave</td>
-                                    <td>01/12/2022</td>
-                                    <td>19/12/2022</td>
-                                    <th scope="col"><button type="button"
-                                            class="btn btn-outline-success">Approve</button></th>
-                                    <th scope="col"><button type="button" class="btn btn-outline-danger">Reject</button>
-                                    </th>
-                                </tr> -->
+											type="button" class="btn btn-primary">APPROVE</button></a></td> --%>
+                               
+                               
+                               <td><form action="leaveRejectManager?id=${leave.id}">
+							  <input type="hidden" name="id" value="${leave.id}">
+							   <input type="hidden" name="eid" value="${employee.id}">
+							  <button type="submit"
+							         onclick="return confirm('Do you really want to reject the leave request?');"
+							          class="btn btn-danger">REJECT</button>
+									</form>
+										</td>
+										 <td><form action="leaveApproveManager?id=${leave.id}">
+							  <input type="hidden" name="id" value="${leave.id}">
+							   <input type="hidden" name="eid" value="${employee.id}">
+							  <button type="submit"
+							         
+							          class="btn btn-primary">APPROVE</button>
+									</form>
+										</td>
+                               
 
                             </tbody>
                             </c:forEach>

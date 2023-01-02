@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -55,6 +56,58 @@ public class AdminController{
 		request.setAttribute("employee", employee);
 		return "/Admin dashboard.jsp";
 	}
+	@GetMapping("/deleteHoliday")
+	public ModelAndView deleteHoliday(HttpServletRequest request) {
+//		int id = Integer.parseInt(request.getParameter("id"));
+//		System.out.println("id"+id);
+		int hid = Integer.parseInt(request.getParameter("hid"));
+		System.out.println(hid);
+		hrepo.deleteById(hid);
+		return new ModelAndView("/viewHoliday");
+	}
+	
+
+	@GetMapping("/viewHoliday")
+	public ModelAndView viewHoliday(HttpServletRequest request) {
+		int id = Integer.parseInt(request.getParameter("id"));
+		Employee employee = emprepo.getReferenceById(id);
+		request.setAttribute("employee", employee);
+		List<Holiday> holiday = hrepo.findAll();
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("view holiday admin.jsp");
+		modelAndView.addObject("holiday", holiday);
+		System.out.println(modelAndView);
+		return modelAndView;
+	}
+
+	@PostMapping("/addEmployee")
+	public ModelAndView addEmployee(Employee emp,HttpServletRequest request) {
+	  ModelAndView mv = new ModelAndView();
+	  try {
+	    EmployeeLeavePolicyService empservice = new EmployeeLeavePolicyService();
+	    int id = Integer.parseInt(request.getParameter("eid"));
+	    
+	    String password=pwdService.generatePassword();
+	    System.out.println(password);
+	    emp.setPassword(password);
+	    String email = emp.getEmail();
+	    //senderService.sendEmail(email,"Username and Password from LMS","Your profile has been successfully created in Leave management portal.Your credentials to access the portal are : "+"\n"+"Username ="+email+"\n"+"Password ="+password);
+	    empservice.setLeaveDays(emp);
+	    emprepo.save(emp);
+	    return new ModelAndView("redirect:/viewEmployee?id="+id);
+	  } catch (DataIntegrityViolationException e) {
+	    mv.addObject("errorMessage", "This email already exists. Please check the values and try again.");
+	    mv.setViewName("addEmployee.jsp");
+	    return mv;
+	  } catch (Exception e) {
+	    mv.addObject("errorMessage", "An error occurred while adding the employee. Please try again.");
+	    mv.setViewName("addEmployee.jsp");
+	    return mv;
+	  }
+	}
+
+	
+
 	  @RequestMapping("/applyLeaveAdmin")
 	  public ModelAndView applyLeaveAdmin(Leave leave,HttpServletRequest request) {
 		int id = Integer.parseInt(request.getParameter("ids"));
@@ -82,6 +135,8 @@ public class AdminController{
 	@RequestMapping("/viewAddEmployee")
 	public String viewAddEmployee(HttpServletRequest request) {
 		int id = Integer.parseInt(request.getParameter("id"));
+		List<Employee> manager=emprepo.findByRole("manager");
+		request.setAttribute("manager", manager);
 		Employee employee = emprepo.getReferenceById(id);
 		request.setAttribute("employee", employee);
 		return "/addEmployee.jsp";
@@ -99,13 +154,7 @@ public class AdminController{
 		System.out.println(modelAndView);
 		return modelAndView;
 	}
-//	@RequestMapping("/viewApproveLeave")
-//	public String viewApproveLeave(HttpServletRequest request) {
-//		int id = Integer.parseInt(request.getParameter("id"));
-//		Employee employee = emprepo.getReferenceById(id);
-//		request.setAttribute("employee", employee);
-//		return "/Admin leave approve.jsp";
-//	}
+
 	
 	@RequestMapping("/viewApproveLeave")
 	public String viewApproveLeaveManager(HttpServletRequest request) {
@@ -127,31 +176,25 @@ public class AdminController{
 		request.setAttribute("employee", employee);
 		return "/addHoliday.jsp";
 	}
+	@PostMapping("/addHoliday")
+	public ModelAndView newholiday(Holiday hld,HttpServletRequest request) {
+		int id = Integer.parseInt(request.getParameter("id"));
+		hrepo.save(hld);
+		return new ModelAndView("redirect:/viewHoliday?id="+id);
+	}
 	@RequestMapping("/viewAddProject")
 	public String viewAddProject(HttpServletRequest request) {
 		int id = Integer.parseInt(request.getParameter("id"));
+		List<Employee> manager=emprepo.findByRole("manager");
+		request.setAttribute("manager", manager);
 		Employee employee = emprepo.getReferenceById(id);
+		
 		request.setAttribute("employee", employee);
 		return "/addProject.jsp";
 	}
-	@PostMapping("/addHoliday")
-	public ModelAndView newholiday(Holiday hld) {
-		hrepo.save(hld);
-		return new ModelAndView("redirect:/leaveform.jsp");
-	}
+	
 
-	@GetMapping("/viewHoliday")
-	public ModelAndView viewHoliday(HttpServletRequest request) {
-		int id = Integer.parseInt(request.getParameter("id"));
-		Employee employee = emprepo.getReferenceById(id);
-		request.setAttribute("employee", employee);
-		List<Holiday> holiday = hrepo.findAll();
-		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("view holiday admin.jsp");
-		modelAndView.addObject("holiday", holiday);
-		System.out.println(modelAndView);
-		return modelAndView;
-	}
+
 	 @RequestMapping("/viewProjects")
 	  public ModelAndView viewProject(HttpServletRequest request) {
 		int id = Integer.parseInt(request.getParameter("id"));
@@ -171,26 +214,9 @@ public class AdminController{
 			request.setAttribute("employee", employee);
 			return "/resetpassword.jsp";
 		}
-	@GetMapping("/deleteHoliday")
-	public ModelAndView deleteHoliday(HttpServletRequest request) {
-		int hid = Integer.parseInt(request.getParameter("hid"));
-		System.out.println(hid);
-		hrepo.deleteById(hid);
-		return new ModelAndView("/viewHoliday");
-	}
+
 	
-	@PostMapping("/addEmployee")
-	public ModelAndView addEmployee(Employee emp) {
-		EmployeeLeavePolicyService empservice = new EmployeeLeavePolicyService();
-		String password=pwdService.generatePassword();
-		System.out.println(password);
-		emp.setPassword(password);
-		String email = emp.getEmail();
-		//senderService.sendEmail(email,"Username and Password from LMS","Your profile has been successfully created in Leave management portal.Your credentials to access the portal are : "+"\n"+"Username ="+email+"\n"+"Password ="+password);
-		empservice.setLeaveDays(emp);
-		emprepo.save(emp);
-		return new ModelAndView("redirect:/Admin dashboard.jsp");
-	}
+	
 	@RequestMapping("/edit")
 	public String editForm(HttpServletRequest request) {
 		int id = Integer.parseInt(request.getParameter("id"));
@@ -207,8 +233,9 @@ public class AdminController{
 	}
 	
 	@RequestMapping("/update")
-	public ModelAndView updateEmployee(Employee emp) {
+	public ModelAndView updateEmployee(Employee emp,HttpServletRequest request) {
 		Employee currentData = emprepo.getReferenceById(emp.getId());
+		int id = Integer.parseInt(request.getParameter("id"));
 		String pwd=currentData.getPassword();
 		int sickleave=currentData.getSickleave();
 		int casualleave=currentData.getCasualleave();
@@ -227,7 +254,7 @@ public class AdminController{
 		emp.setAdoptionleave(adoptionleave);
 		emp.setPassword(pwd);
 		emprepo.save(emp);
-		return new ModelAndView("redirect:/viewEmployee");
+		return new ModelAndView("redirect:/viewEmployee?id="+id);
 	}
 	
 	@GetMapping("/delete")
