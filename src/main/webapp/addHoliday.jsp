@@ -121,6 +121,8 @@
                             <span class="details">Holiday Name</span>
                             <input type="text" id="holidayname" name="occasion" class="form-control">
                             <span id="holidayError" class="text-danger"></span>
+                            <div class="text-danger">${param.errorMessage}</div>
+                            
                         </div>
                         <!-- drop-down for leave type -->
                         <!-- <div class="input-box">
@@ -243,7 +245,7 @@
                    }
 
 
-
+					
 
                   if (flag) {
                     return true;

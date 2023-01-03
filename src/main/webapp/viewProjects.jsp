@@ -118,7 +118,7 @@
                           <table class="table bg-white rounded shadow-sm  table-hover">
                         <thead>
                             <tr>
-                                <th scope="col">Sr. No</th>
+                                <th scope="col">ID</th>
                                 <th scope="col">Project Name</th>
                                 <th scope="col">Assigned Manager</th>
                                 <th scope="col">Start Date</th>

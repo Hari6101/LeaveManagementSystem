@@ -27,6 +27,7 @@ import com.example.demo.repository.LeaveRepository;
 import com.example.demo.repository.ManagerRepository;
 import com.example.demo.repository.ProjectRepository;
 import com.example.demo.service.ManagerLeavePolicyService;
+import com.example.demo.service.emailSender;
 
 @Controller
 public class ManagerController{
@@ -40,6 +41,9 @@ public class ManagerController{
 	LeaveRepository lrepo;
 	@Autowired
 	ProjectRepository proRepo;
+	
+	@Autowired
+	private emailSender senderService;
 	
 	@RequestMapping("/managerDashboard")
 	public String managerDashboard(HttpServletRequest request) {
@@ -140,10 +144,18 @@ public class ManagerController{
 	@GetMapping("/leaveRejectManager")
 	public ModelAndView managerRejectLeave(HttpServletRequest request,Leave leave) {
 		int id = Integer.parseInt(request.getParameter("eid"));
+		Employee employee = emprepo.getReferenceById(id);
+		String email = employee.getEmail();
+		
 		Leave lv = lrepo.getReferenceById(leave.getId());
+		String leaveType=lv.getLeaveType();
+		System.out.println(leaveType);
+		String total = lv.getTotalDays();
+		System.out.println(total);
 		System.out.println(leave.getId());
 		lv.setStatus("Rejected");
 		lrepo.save(lv);
+		senderService.sendEmail(email,"Leave rejected","Your application for "+leaveType+"for"+total+"days is rejected.");
 		return new ModelAndView("/viewApproveLeaveManager?id="+id);
 	}
 	@GetMapping("/leaveApproveManager")
@@ -186,6 +198,9 @@ public class ManagerController{
 		    default:
 		      throw new IllegalArgumentException("Invalid leave type: " + leaveType);
 		  }
+		  String email = employee.getEmail();
+		  System.out.println("email : "+email);
+		  senderService.sendEmail(email,"Leave approved","Your application for "+leaveType+"for"+days+"days is approved.");
 		  emprepo.save(employee);
 		return new ModelAndView("/viewApproveLeaveManager?id="+id);
 	}

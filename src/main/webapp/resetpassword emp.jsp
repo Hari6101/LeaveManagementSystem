@@ -82,28 +82,25 @@
             <!-- start -->
             <div class="container shadow" style="margin-top: 55px;">
                 <div class="title">Reset Password</div>
-                <form action="login" onsubmit="return validateForm()">
+               <form action="/resetPassword" method="POST" onsubmit="return validateForm()">
                     <div class="Employe-Details">
-                        <div class="input-box">
-                            <span class="details mt-4">Email</span>
-                            <input type="email" id="email" name="email" class="form-control">
-                            <span id="emailError" class="text-danger"></span>
-                        </div>
+                    	 <input type="hidden" name="id" value="${employee.id}"> 
                         <div class="input-box">
                             <span class="details">Current Password</span>
                             <input type="password" id="password" name="password" class="form-control">
                             <span id="passError" class="text-danger"></span>
+                            <div class="text-danger">${param.errorMessage}</div>
                         </div>
                         <div class="input-box">
                             <span class="details">New Password</span>
                             <input type="password" id="newpassword" name="newpassword" class="form-control">
-                            <span id="newpassError" class="text-danger"><small style="color:green;"><b>Password should
-                                        be strong</b></small></span>
+                            <span id="newpassError" class="text-danger"></span>
                         </div>
                         <div class="input-box">
                             <span class="details">Confirm Password</span>
                             <input type="password" id="confirmpassword" name="confirmpassword" class="form-control">
                             <span id="confirmpassError" class="text-danger"></span>
+                             
                         </div>
 
 

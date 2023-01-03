@@ -116,22 +116,23 @@
                 <div class="title">Reset Password</div>
                 <form action="/resetPassword" method="POST" onsubmit="return validateForm()">
                     <div class="Employe-Details">
-                    	
+                    	 <input type="hidden" name="id" value="${employee.id}"> 
                         <div class="input-box">
                             <span class="details">Current Password</span>
                             <input type="password" id="password" name="password" class="form-control">
                             <span id="passError" class="text-danger"></span>
+                            <div class="text-danger">${param.errorMessage}</div>
                         </div>
                         <div class="input-box">
                             <span class="details">New Password</span>
                             <input type="password" id="newpassword" name="newpassword" class="form-control">
-                            <span id="newpassError" class="text-danger"><small style="color:green;"><b>Password should
-                                        be strong</b></small></span>
+                            <span id="newpassError" class="text-danger"></span>
                         </div>
                         <div class="input-box">
                             <span class="details">Confirm Password</span>
                             <input type="password" id="confirmpassword" name="confirmpassword" class="form-control">
                             <span id="confirmpassError" class="text-danger"></span>
+                             
                         </div>
 
 
@@ -147,8 +148,8 @@
             </div>
 
             <script>
-                let email = document.getElementById("email");
-                let emailcheck = /^[A-Za-z_.0-9]{6,30}@[A-Za-z]{2,12}.[A-Za-z.]{2,8}$/;
+                //let email = document.getElementById("email");
+               // let emailcheck = /^[A-Za-z_.0-9]{6,30}@[A-Za-z]{2,12}.[A-Za-z.]{2,8}$/;
                 let password = document.getElementById("password");
                 let reg = /^(?=.*[A-Z].*[A-Z])(?=.*[!@#$&*])(?=.*[0-9].*[0-9])(?=.*[a-z].*[a-z].*[a-z]).{8}$/;
                 let newpassword = document.getElementById("newpassword");
@@ -161,10 +162,11 @@
                 function validateForm() {
 
 
-                    if (email.value == "") {
+                /*     if (email.value == "") {
 
                         document.getElementById("emailError").innerHTML = "Email is required.";
                         flag = 0;
+                        console.log("flag":flag);
                     }
                     else if (!emailcheck.test(email.value)) {
                         document.getElementById("emailError").innerHTML = "Please input a valid Email.";
@@ -174,7 +176,7 @@
                         document.getElementById("emailError").innerHTML = "";
                         flag = 1;
 
-                    }
+                    } */
 
                     // password validation 
                     if (password.value == "") {
@@ -209,7 +211,7 @@
                     }
                     else {
                         document.getElementById("passError").innerHTML = "";
-
+						flag=1;
                     }
                     // new password 
                     if (newpassword.value == "") {
@@ -261,7 +263,9 @@
                         document.getElementById("confirmpassError").innerHTML = "";
 
                     }
-
+					
+                    console.log("flag"+flag);
+                    
                     if (flag) {
                         return true;
                     } else {

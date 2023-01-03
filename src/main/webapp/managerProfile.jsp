@@ -88,78 +88,98 @@
             </nav>
 
 <!-- start -->
-<div class="container1 shadow">
-    <div class="col-sm-8 bg-white rounded-right">
-        <h3 class="mt-3 text-center"></h3>
-        <div class="row">
-            <div class="col-sm-6">
-                <p class="font-weight-bold"><b>Employee Id</b></p>
-                   <h6 class=" text-muted">123</h6>
-            </div>
-            <div class="col-sm-6">
-                <p class="font-weight-bold"><b>Name</b></p>
-                   <h6 class="text-muted">Vikash Kumar</h6>
-            </div>
-        </div>
-        <hr class="bg-dark">
-           <div class="row">
-            <div class="col-sm-6">
-                <p class="font-weight-bold"><b>  Email</b></p>
-                   <h6 class=" text-muted">employee@employee.com</h6>
-            </div>
-            <div class="col-sm-6">
-                <p class="font-weight-bold"><b>Contact</b></p>
-                   <h6 class="text-muted">+91 9876543210</h6>
-            </div>
-        </div>
-         <!-- <h4 class="mt-3">Projects</h4> -->
-            <hr class="bg-dark">
-           <div class="row">
-            <div class="col-sm-6">
-                   <p class="font-weight-bold"><b>Gender</b></p>
-                    <h6 class="text-muted">Male</h6>
-            </div>
-            <div class="col-sm-6">
-                <p class="font-weight-bold"><b>Date of Birth</b></p>
-                <h6 class="text-muted">09-11-1995</h6>
-            </div>
-          </div>
-         
-          <!-- other -->
-    
-          <hr class="bg-dark">
-          <div class="row">
-           <div class="col-sm-6">
-                  <p class="font-weight-bold"><b>Date of Joining</b></p>
-                   <h6 class="text-muted">01-03-2022</h6>
-           </div>
-           <div class="col-sm-6">
-               <p class="font-weight-bold"><b>Employee Status</b></p>
-               <h6 class="text-muted">Active</h6>
-           </div>
-         </div>
-           <!-- other -->
-         <hr class="bg-dark">
-         <div class="row">
-          
-          <div class="col-sm-6">
-              <p class="font-weight-bold"><b>Designation</b></p>
-              <h6 class="text-muted">Developer</h6>
-          </div>
-          <div class="col-sm-6">
-            <p class="font-weight-bold"><b>Address</b></p>
-             <h6 class="text-muted">Punjab,Ludhiana,141010,India</h6>
-     </div>
-        </div>
-        
-         
-          
-        </div>
-        
-           
-      </div>
-      </div>
-    
+	<div class="container1 shadow">
+				<div class="col-sm-8 bg-white rounded-right">
+					<h3 class="mt-3 text-center"></h3>
+					<div class="row">
+						<div class="col-sm-6">
+							<p class="font-weight-bold">
+								<b>Employee Id</b>
+							</p>
+							<h6 class=" text-muted">${employee.id}</h6>
+						</div>
+
+						<div class="col-sm-6">
+							<p class="font-weight-bold">
+								<b>Name</b>
+							</p>
+							<h6 class="text-muted">${employee.name}</h6>
+						</div>
+					</div>
+					<hr class="bg-dark">
+					<div class="row">
+						<div class="col-sm-6">
+							<p class="font-weight-bold">
+								<b> Email</b>
+							</p>
+							<h6 class=" text-muted">${employee.email}</h6>
+						</div>
+						<div class="col-sm-6">
+							<p class="font-weight-bold">
+								<b>Contact</b>
+							</p>
+							<h6 class="text-muted">+91 ${employee.contact}</h6>
+						</div>
+					</div>
+					<!-- <h4 class="mt-3">Projects</h4> -->
+					<hr class="bg-dark">
+					<div class="row">
+						<div class="col-sm-6">
+							<p class="font-weight-bold">
+								<b>Gender</b>
+							</p>
+							<h6 class="text-muted">${employee.gender}</h6>
+						</div>
+						<div class="col-sm-6">
+							<p class="font-weight-bold">
+								<b>Date of Birth</b>
+							</p>
+							<h6 class="text-muted">${employee.dob}</h6>
+						</div>
+					</div>
+
+					<!-- other -->
+
+					<hr class="bg-dark">
+					<div class="row">
+						<div class="col-sm-6">
+							<p class="font-weight-bold">
+								<b>Date of Joining</b>
+							</p>
+							<h6 class="text-muted">${employee.doj}</h6>
+						</div>
+						<div class="col-sm-6">
+							<p class="font-weight-bold">
+								<b>Employee Status</b>
+							</p>
+							<h6 class="text-muted">${employee.status}</h6>
+						</div>
+					</div>
+					<!-- other -->
+					<hr class="bg-dark">
+					<div class="row">
+
+						<div class="col-sm-6">
+							<p class="font-weight-bold">
+								<b>Designation</b>
+							</p>
+							<h6 class="text-muted">${employee.designation}</h6>
+						</div>
+						<div class="col-sm-6">
+							<p class="font-weight-bold">
+								<b>Address</b>
+							</p>
+							<h6 class="text-muted">${employee.address}</h6>
+						</div>
+					</div>
+
+
+
+				</div>
+
+
+			</div>
+		</div>
 <!-- end -->
         </div>
     </div>

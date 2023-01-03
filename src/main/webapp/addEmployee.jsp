@@ -119,12 +119,12 @@
           <div class="Employe-Details">
             <div class="input-box">
               <span class="details">Name</span>
-              <input type="text" id="name" name="name" class="form-control">
+              <input type="text" id="name" name="name" value="${emp.name}" class="form-control">
               <span id="nameError" class="text-danger"></span>
             </div>
             <div class="input-box">
               <span class="details">Reporting Person</span>
-              <select  class="form-control" name="assignedTeam" id="assignedTeam" required>
+              <select  class="form-control" name="reportingmanager" id="assignedTeam" required>
                                    <option value="" selected>Select manager</option> 
                                   <c:forEach items="${manager}" var="manager" > 
                                   <option value="${manager.name}">${manager.name}</option>
@@ -137,7 +137,10 @@
               <span class="details">Email</span>
               <input type="email" id="email" name="email" class="form-control">
               <span id="emailError" class="text-danger"></span>
-              <div class="text-danger">${errorMessage}</div>
+              <div class="text-danger">${param.errorMessage}</div>
+          
+          
+              
             </div>
 			
             <div class="input-box">
@@ -163,7 +166,7 @@
 
             <div class="input-box">
               <span class="details">Date of Joining</span>
-              <input type="date" name="doj" id="doj" class="form-control">
+              <input type="date" name="doj" id="hiringDate" class="form-control">
               <span id="jdError" class="text-danger"></span>
             </div>
             <!-- drop-down for designation -->
@@ -222,7 +225,7 @@
         let dob = document.getElementById("dob");
         let hiringDate = document.getElementById("hiringDate");
         let address = document.getElementById("address");
-        let emailcheck = /^[A-Za-z_.0-9]{6,30}@[A-Za-z]{2,12}.[A-Za-z.]{2,8}$/;
+        let emailcheck = /^[A-Za-z_.0-9]{3,30}@[A-Za-z]{2,12}.[A-Za-z.]{2,8}$/;
         let namecheck = /^[A-Za-z. ]{2,20}$/;
         let phonecheck = /^[6789][0-9]{9}$/;
         let flag = 1;
@@ -373,7 +376,7 @@
             flag = 0;
             console.log("flag is : "+flag);
           }
-          else if (address.value.length < 20) {
+          else if (address.value.length < 10) {
             document.getElementById("addressError").innerHTML = "Please provide complete details.";
             flag = 0;
             console.log("flag is : "+flag);

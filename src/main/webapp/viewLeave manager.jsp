@@ -99,7 +99,7 @@
                         <table class="table bg-white rounded shadow-sm  table-hover">
                             <thead>
                                 <tr>
-                               <th scope="col">Sr. No</th>
+                               <th scope="col">ID</th>
                                		<th scope="col">Email</th>
                                     <th scope="col">Leave Type</th>
                                     <th scope="col">Start Date</th>
@@ -107,7 +107,7 @@
                                     <th scope="col">Days Taken</th>
                                     <th scope="col">Reason</th>
                                     <th scope="col">Status</th>
-                                    <th scope="col">Action</th>
+                                    <th scope="col"></th>
                                 </tr>
                             </thead>
                             <c:forEach items="${leave}" var="leave">

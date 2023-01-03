@@ -95,22 +95,23 @@
                 <div class="title">Reset Password</div>
                 <form action="/resetPassword" method="POST" onsubmit="return validateForm()">
                     <div class="Employe-Details">
-                      
+                    	 <input type="hidden" name="id" value="${employee.id}"> 
                         <div class="input-box">
                             <span class="details">Current Password</span>
                             <input type="password" id="password" name="password" class="form-control">
                             <span id="passError" class="text-danger"></span>
+                            <div class="text-danger">${param.errorMessage}</div>
                         </div>
                         <div class="input-box">
                             <span class="details">New Password</span>
                             <input type="password" id="newpassword" name="newpassword" class="form-control">
-                            <span id="newpassError" class="text-danger"><small style="color:green;"><b>Password should
-                                        be strong</b></small></span>
+                            <span id="newpassError" class="text-danger"></span>
                         </div>
                         <div class="input-box">
                             <span class="details">Confirm Password</span>
                             <input type="password" id="confirmpassword" name="confirmpassword" class="form-control">
                             <span id="confirmpassError" class="text-danger"></span>
+                             
                         </div>
 
 

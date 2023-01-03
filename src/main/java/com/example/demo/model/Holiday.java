@@ -19,7 +19,8 @@ public class Holiday {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int hid;
-	 @Column(name = "dates")
+	 
+	 @Column(unique=true)
 	private Date dates;
 	private String occasion;
 	public int getHid() {

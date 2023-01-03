@@ -13,10 +13,12 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 import com.example.demo.model.Employee;
 import com.example.demo.model.Holiday;
@@ -80,25 +82,33 @@ public class AdminController{
 		return modelAndView;
 	}
 
-	@PostMapping("/addEmployee")
+	@RequestMapping("/addEmployee")
 	public ModelAndView addEmployee(Employee emp,HttpServletRequest request) {
 	  ModelAndView mv = new ModelAndView();
+	  int id = Integer.parseInt(request.getParameter("eid"));
 	  try {
 	    EmployeeLeavePolicyService empservice = new EmployeeLeavePolicyService();
-	    int id = Integer.parseInt(request.getParameter("eid"));
+	   
 	    
 	    String password=pwdService.generatePassword();
 	    System.out.println(password);
 	    emp.setPassword(password);
 	    String email = emp.getEmail();
-	    //senderService.sendEmail(email,"Username and Password from LMS","Your profile has been successfully created in Leave management portal.Your credentials to access the portal are : "+"\n"+"Username ="+email+"\n"+"Password ="+password);
+	    
 	    empservice.setLeaveDays(emp);
 	    emprepo.save(emp);
+	    senderService.sendEmail(email,"Username and Password from LMS","Your profile has been successfully created in Leave management portal.Your credentials to access the portal are : "+"\n"+"Username ="+email+"\n"+"Password ="+password);
 	    return new ModelAndView("redirect:/viewEmployee?id="+id);
 	  } catch (DataIntegrityViolationException e) {
-	    mv.addObject("errorMessage", "This email already exists. Please check the values and try again.");
-	    mv.setViewName("addEmployee.jsp");
-	    return mv;
+		  RedirectView redirectView = new RedirectView("/viewAddEmployee");
+		  redirectView.addStaticAttribute("id", id); 
+		  System.out.println("id"+id);
+		  mv.setView(redirectView);
+		  
+		  mv.addObject("errorMessage", "This email already exists. Please check the values and try again.");
+		  return mv;
+		
+
 	  } catch (Exception e) {
 	    mv.addObject("errorMessage", "An error occurred while adding the employee. Please try again.");
 	    mv.setViewName("addEmployee.jsp");
@@ -111,8 +121,13 @@ public class AdminController{
 	  @RequestMapping("/applyLeaveAdmin")
 	  public ModelAndView applyLeaveAdmin(Leave leave,HttpServletRequest request) {
 		int id = Integer.parseInt(request.getParameter("ids"));
+		String leaveType=request.getParameter("leaveType");
+		String total=request.getParameter("totalDays");
 		Employee employee = emprepo.getReferenceById(id);
 		request.setAttribute("employee", employee);
+		String email=employee.getEmail();
+		System.out.println("email : " +email);
+		 senderService.sendEmail(email,"Leave application acknowledgment from LMS","You have successfully applied for the"+leaveType+"for"+total+"days.");
 		  lrepo.save(leave);
 		  System.out.println("Leave applied successfully");
 		  return new ModelAndView("redirect:/Admindashboard?id="+id);
@@ -160,8 +175,7 @@ public class AdminController{
 	public String viewApproveLeaveManager(HttpServletRequest request) {
 		int id = Integer.parseInt(request.getParameter("id"));
 		Employee employee = emprepo.getReferenceById(id);
-		//List<Leave> leave = lrepo.findByRole("admin");leave.addAll(lrepo.findByRole("employee"));
-		//List<Leave> leave = lrepo.findByRoleAndStatus("manager", "pending");leave.addAll(lrepo.findByRoleAndStatus("employee", "pending"));
+		
 		List<Leave> leave = lrepo.findByRoleAndStatusAndReportingmanager("manager", "pending", employee.getName());
 		request.setAttribute("leave", leave);
 		
@@ -176,12 +190,54 @@ public class AdminController{
 		request.setAttribute("employee", employee);
 		return "/addHoliday.jsp";
 	}
+	
 	@PostMapping("/addHoliday")
-	public ModelAndView newholiday(Holiday hld,HttpServletRequest request) {
-		int id = Integer.parseInt(request.getParameter("id"));
-		hrepo.save(hld);
-		return new ModelAndView("redirect:/viewHoliday?id="+id);
+	public ModelAndView newholiday(Holiday hld, HttpServletRequest request) {
+	  ModelAndView mv = new ModelAndView();
+	  int id = Integer.parseInt(request.getParameter("id"));
+	  try {
+	    hrepo.save(hld);
+	    return new ModelAndView("redirect:/viewHoliday?id=" + id);
+	  } catch (DataIntegrityViolationException e) {
+		RedirectView redirectView = new RedirectView("/viewAddHoliday");
+		redirectView.addStaticAttribute("id", id); 
+		mv.addObject("errorMessage", "This holiday already exists. Please check the values and try again.");
+	    mv.setView(redirectView);
+	    return mv;
+	  } catch (Exception e) {
+	    mv.addObject("errorMessage", "An error occurred while adding the holiday. Please try again.");
+	    mv.setViewName("addHoliday.jsp");
+	    return mv;
+	  }
 	}
+	// reset password 
+	  @RequestMapping("/resetPassword")
+		public ModelAndView resetPassword (HttpServletRequest request,HttpSession session) {
+		  int id = Integer.parseInt(request.getParameter("id"));
+		  Employee employee = emprepo.getReferenceById(id);
+		  String oldpassword=request.getParameter("password");
+		  String password=request.getParameter("newpassword");
+		  ModelAndView mv =new ModelAndView();
+			
+			if (oldpassword.equals(employee.getPassword())) {
+				employee.setPassword(password);
+				emprepo.save(employee);
+				mv.setViewName("login.jsp");
+				mv.addObject("employee",employee);
+				session.invalidate();
+				return mv;
+			}
+			else {
+				RedirectView redirectView = new RedirectView("/viewAdminResetPassword");
+				redirectView.addStaticAttribute("id", id); 
+				mv.addObject("errorMessage", "Please check the password and try again.");
+				System.out.println("reset failed");
+				mv.setView(redirectView);
+				return mv;
+			}
+				
+		}	
+	
 	@RequestMapping("/viewAddProject")
 	public String viewAddProject(HttpServletRequest request) {
 		int id = Integer.parseInt(request.getParameter("id"));
@@ -276,25 +332,7 @@ public class AdminController{
 
 	}
 	
-	// reset password 
-		  @RequestMapping("/resetPassword")
-			public ModelAndView resetPassword (HttpServletRequest request,HttpSession session) {
-				
-				String oldpassword=request.getParameter("password");
 
-				String password=request.getParameter("newpassword");
-				Employee currentData = emprepo.getRefrencedByPassword(oldpassword);
-
-				currentData.setPassword(password);
-				
-				emprepo.save(currentData);
-				
-				ModelAndView mv =new ModelAndView();
-				mv.setViewName("login.jsp");
-				mv.addObject("employee",currentData);
-				session.invalidate();
-				return mv;
-			}	
 	
 	// add project 
  	 @RequestMapping("/addProject")

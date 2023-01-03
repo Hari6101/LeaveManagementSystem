@@ -283,19 +283,20 @@
 					// validation start for leave 
                         
                         if(leavetype.value=="Sick Leave"){
-                              if(Total.value<${employee.sickleave}){
+                              if(Total.value>${employee.sickleave}){
                                 document.getElementById("TotalError").innerHTML = "Insufficient leave available for the requested time period.";
                                flag = 0;
                                console.log("flag is 1: "+flag);
                               }else {
                                 document.getElementById("TotalError").innerHTML = "";
+                                flag=1;
                                 console.log("flag is 2: "+flag);
                               }
                         }
 
                        
                         if(leavetype.value=="Casual Leave"){
-                              if(Total.value<${employee.casualleave}){
+                              if(Total.value>${employee.casualleave}){
                                 document.getElementById("TotalError").innerHTML = "Insufficient leave available for the requested time period.";
                                flag = 0;
                                console.log("flag is : "+flag);
@@ -305,7 +306,7 @@
                               }
                         }
                         if(leavetype.value=="Personal Leave"){
-                              if(Total.value<${employee.personalleave}){
+                              if(Total.value>${employee.personalleave}){
                                 document.getElementById("TotalError").innerHTML = "Insufficient leave available for the requested time period.";
                                flag = 0;
                                console.log("flag is : "+flag);

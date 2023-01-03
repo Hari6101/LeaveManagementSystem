@@ -221,7 +221,7 @@
                     let email = document.getElementById("email");
                     let emailcheck = /^[A-Za-z_.0-9]{3,30}@[A-Za-z]{2,12}.[A-Za-z.]{2,8}$/;
                     let reason = document.getElementById("reason");
-                    let reasoncheck = /^[A-Za-z. ]{20,100}$/;
+                    let reasoncheck = /^[A-Za-z. ]{3,100}$/;
                     var from = document.getElementById("from");
                     var To = document.getElementById("To");
                     //From date validation 
@@ -286,7 +286,7 @@
                             document.getElementById("resError").innerHTML = "Reason is required.";
                             flag = 0;
 
-                        } else if (reason.value.length < 20) {
+                        } else if (reason.value.length < 3) {
                             document.getElementById("resError").innerHTML = "Minimum length should be 20 characters.";
                             flag = 0;
                         } else if (reason.value.length > 100) {

@@ -186,11 +186,11 @@
 						<table class="table bg-white rounded shadow-sm  table-hover">
 							<thead>
                                 <tr>
-                                    <th scope="col">Sr. No</th>
+                                    <th scope="col">ID</th>
                                     <th scope="col">Leave Type</th>
                                     <th scope="col">Start Date</th>
                                     <th scope="col">End Date</th>
-                                    <th scope="col">Days Taken</th>
+                                    <th scope="col">Total Days</th>
                                     <th scope="col">Reason</th>
                                     <th scope="col">Status</th>
                                 </tr>
