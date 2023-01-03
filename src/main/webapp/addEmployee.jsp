@@ -25,31 +25,29 @@
                     class="list-group-item list-group-item-action bg-transparent second-text active me-2"><i
                         class="fas fa-tachometer-alt "></i> Admin Dashboard</a>
 
-
-                <a href="/viewLeaveformAdmin?id=${employee.id}"
+              <a href="/viewLeaveformAdmin?id=${employee.id}"
                     class="list-group-item list-group-item-action bg-transparent second-text fw-bold me-2"><i
-                        class="bi bi-house-add"></i> Apply Leave</a>
+                        class="bi bi-house-add"></i>&emsp;&nbsp;Apply Leave</a>
 
 
                <a href="/viewHoliday?id=${employee.id}"
                     class="list-group-item list-group-item-action bg-transparent second-text fw-bold me-2"><i
-                        class="bi bi-calendar-day"></i> View Holidays</a>
+                        class="bi bi-calendar-day"></i>&emsp;&nbsp;View Holidays</a>
 
 
                 <a href="/viewAddEmployee?id=${employee.id}"
                     class="list-group-item list-group-item-action bg-transparent second-text fw-bold me-2"><i
-                        class="bi bi-person-fill-add"></i> Add Employee</a>
+                        class="bi bi-person-fill-add"></i>&emsp;&nbsp;Add Employee</a>
 
 
                <a href="/viewEmployee?id=${employee.id}"
                     class="list-group-item list-group-item-action bg-transparent second-text fw-bold me-2"><i
-                        class="bi bi-person-plus"></i>
-                    View Employee </a>
+                        class="bi bi-person-plus"></i>&emsp;&nbsp;View Employee </a>
 
 
                 <a href="/viewApproveLeave?id=${employee.id}"
                     class="list-group-item list-group-item-action bg-transparent second-text fw-bold me-2"><i
-                        class="bi bi-check2-circle"></i> Approve Leave</a>
+                        class="bi bi-check2-circle"></i>&emsp;&nbsp;Approve Leave</a>
 
 
 	               <!--  <a href="updateform.jsp"
@@ -59,22 +57,22 @@
 
                  <a href="/viewAddHoliday?id=${employee.id}"
                     class="list-group-item list-group-item-action bg-transparent second-text fw-bold me-2"><i
-                        class="bi bi-building-fill-add"></i> Add Holiday</a>
+                        class="bi bi-building-fill-add"></i>&emsp;&nbsp;Add Holiday</a>
 
 
                 <a href="/viewAddProject?id=${employee.id}"
                     class="list-group-item list-group-item-action bg-transparent second-text fw-bold me-2"><i
-                        class="bi bi-card-checklist "></i> Add Project</a>
+                        class="bi bi-card-checklist "></i>&emsp;&nbsp;Add Project</a>
 
 
                 <a href="/viewProjects?id=${employee.id}"
                     class="list-group-item list-group-item-action bg-transparent second-text fw-bold me-2"><i
-                        class="bi bi-card-list "></i> View Projects </a>
+                        class="bi bi-card-list "></i>&emsp;&nbsp;View Projects </a>
 
 
                <a href="/viewAdminResetPassword?id=${employee.id}"				
                     class="list-group-item list-group-item-action bg-transparent second-text fw-bold me-2"><i
-                        class="bi bi-key-fill"></i> Reset Password</a>
+                        class="bi bi-key-fill"></i>&emsp;&nbsp;Reset Password</a>
 
             </div>
         </div>
